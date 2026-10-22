@@ -206,19 +206,51 @@ h1 {
   z-index: 1;
 }
 
-.summary {
+.overview {
   display: flex;
-  justify-content: space-between;
-  padding: 12px 16px;
-  background: #FAFAFC;
-  border-top: 1px solid var(--line);
-  border-radius: 0 0 12px 12px;
-  font-size: 14px;
-  color: var(--ink-500);
+  align-items: center;
+  gap: 20px;
+  padding: 12px 16px 16px;
 }
-.summary strong { color: var(--ink-900); font-size: 15px; }
-.summary .pos { color: var(--green); }
-.summary .neg { color: var(--red); }
+.donut { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.donut svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut circle { fill: none; stroke-width: 16; }
+.donut .track { stroke: #EDEDF2; }
+.donut .seg { transition: stroke-dasharray 200ms ease-out, stroke-dashoffset 200ms ease-out; cursor: default; }
+.donut .seg.promoters  { stroke: var(--green-dot); }
+.donut .seg.passives   { stroke: var(--amber-dot); }
+.donut .seg.detractors { stroke: var(--red-dot); }
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.donut-center strong {
+  font-family: var(--font-headline);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink-900);
+}
+.donut-center strong.pos { color: var(--green); }
+.donut-center strong.neg { color: var(--red); }
+.donut-center span { font-size: 12px; color: var(--ink-500); margin-top: 4px; }
+
+.legend { list-style: none; margin: 0; padding: 0; flex: 1; font-size: 14px; }
+.legend li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 0;
+}
+.legend li span:first-child { color: var(--ink-700); }
+.legend li.total { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 9px; color: var(--ink-500); }
+.legend li.total strong { color: var(--ink-900); }
 
 .target-slider { padding: 4px 16px 16px; }
 input[type=range] { width: 100%; margin: 0; accent-color: var(--blue); }
@@ -307,9 +339,26 @@ details p { margin: 8px 0 0; }
         <button type="button" data-target="detractors" data-step="1" aria-label="Detractor erbij">+</button>
       </div>
     </div>
-    <div class="summary">
-      <span>Totaal <strong id="total-count">0</strong></span>
-      <span>Huidige NPS <strong id="current-nps">–</strong></span>
+  </section>
+
+  <section class="panel">
+    <h2>Overzicht</h2>
+    <div class="overview">
+      <div class="donut">
+        <svg viewBox="0 0 120 120" role="img" aria-label="Verdeling promoters, passives en detractors">
+          <circle class="track" cx="60" cy="60" r="50"></circle>
+          <circle class="seg promoters" id="seg-promoters" cx="60" cy="60" r="50" stroke-dasharray="0 999"><title></title></circle>
+          <circle class="seg passives" id="seg-passives" cx="60" cy="60" r="50" stroke-dasharray="0 999"><title></title></circle>
+          <circle class="seg detractors" id="seg-detractors" cx="60" cy="60" r="50" stroke-dasharray="0 999"><title></title></circle>
+        </svg>
+        <div class="donut-center"><strong id="current-nps">–</strong><span>NPS</span></div>
+      </div>
+      <ul class="legend">
+        <li><span><span class="dot promoter"></span>Promoters</span><span class="pct" id="leg-promoters">–</span></li>
+        <li><span><span class="dot passive"></span>Passives</span><span class="pct" id="leg-passives">–</span></li>
+        <li><span><span class="dot detractor"></span>Detractors</span><span class="pct" id="leg-detractors">–</span></li>
+        <li class="total"><span>Totaal</span><strong id="total-count">0</strong></li>
+      </ul>
     </div>
   </section>
 
@@ -388,14 +437,34 @@ details p { margin: 8px 0 0; }
   }
 
   function showPct(key, n, N) {
-    var el = els.pct[key];
-    el.classList.remove('good', 'bad');
-    if (N === 0) { el.textContent = '–'; return; }
-    var pct = 100 * n / N;
-    var norm = NORMS[key];
-    var ok = norm.min !== undefined ? pct >= norm.min : pct <= norm.max;
-    el.textContent = fmtPct(pct);
-    el.classList.add(ok ? 'good' : 'bad');
+    [els.pct[key], document.getElementById('leg-' + key)].forEach(function (el) {
+      el.classList.remove('good', 'bad');
+      if (N === 0) { el.textContent = '–'; return; }
+      var pct = 100 * n / N;
+      var norm = NORMS[key];
+      var ok = norm.min !== undefined ? pct >= norm.min : pct <= norm.max;
+      el.textContent = fmtPct(pct);
+      el.classList.add(ok ? 'good' : 'bad');
+    });
+  }
+
+  // Ringdiagram: segmenten achter elkaar op één cirkel, met een klein gaatje ertussen
+  var RING = 2 * Math.PI * 50;
+  var GAP = 2;
+  function drawDonut(counts, N) {
+    var parts = ['promoters', 'passives', 'detractors'];
+    var filled = parts.filter(function (k) { return counts[k] > 0; }).length;
+    var offset = 0;
+    parts.forEach(function (k) {
+      var seg = document.getElementById('seg-' + k);
+      var len = N > 0 ? RING * counts[k] / N : 0;
+      var visible = filled > 1 ? Math.max(0, len - GAP) : len;
+      seg.setAttribute('stroke-dasharray', visible + ' ' + RING);
+      seg.setAttribute('stroke-dashoffset', -offset);
+      seg.querySelector('title').textContent = k.charAt(0).toUpperCase() + k.slice(1) + ': ' + nl(counts[k], 0) +
+        (N > 0 ? ' (' + fmtPct(100 * counts[k] / N) + ')' : '');
+      offset += len;
+    });
   }
 
   function plural(n, one, many) { return nl(n, 0) + ' ' + (n === 1 ? one : many); }
@@ -454,6 +523,7 @@ details p { margin: 8px 0 0; }
     showPct('promoters', p, N);
     showPct('passives', pa, N);
     showPct('detractors', d, N);
+    drawDonut({ promoters: p, passives: pa, detractors: d }, N);
     els.currentNps.classList.remove('pos', 'neg');
     if (N === 0) {
       els.currentNps.textContent = '–';
