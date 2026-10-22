@@ -143,7 +143,6 @@ h1 {
 
 .row label { font-size: 15px; font-weight: 600; color: var(--ink-900); }
 .row label .range { font-weight: 400; color: var(--ink-500); margin-left: 4px; }
-.row label small { display: block; font-size: 13px; font-weight: 400; color: var(--ink-500); margin-top: 2px; }
 .pct { font-weight: 700; color: var(--ink-700); }
 .pct.good { color: var(--green); }
 .pct.bad  { color: var(--red); }
@@ -316,7 +315,7 @@ details p { margin: 8px 0 0; }
   <section class="panel">
     <h2>Jouw responses tot nu toe</h2>
     <div class="row">
-      <label for="promoters"><span class="dot promoter"></span>Promoters<span class="range">9–10</span><small><span class="pct" id="pct-promoters">–</span> van totaal</small></label>
+      <label for="promoters"><span class="dot promoter"></span>Promoters<span class="range">9–10</span></label>
       <div class="stepper">
         <button type="button" data-target="promoters" data-step="-1" aria-label="Promoter eraf">−</button>
         <input id="promoters" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
@@ -324,7 +323,7 @@ details p { margin: 8px 0 0; }
       </div>
     </div>
     <div class="row">
-      <label for="passives"><span class="dot passive"></span>Passives<span class="range">7–8</span><small><span class="pct" id="pct-passives">–</span> van totaal</small></label>
+      <label for="passives"><span class="dot passive"></span>Passives<span class="range">7–8</span></label>
       <div class="stepper">
         <button type="button" data-target="passives" data-step="-1" aria-label="Passive eraf">−</button>
         <input id="passives" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
@@ -332,7 +331,7 @@ details p { margin: 8px 0 0; }
       </div>
     </div>
     <div class="row">
-      <label for="detractors"><span class="dot detractor"></span>Detractors<span class="range">0–6</span><small><span class="pct" id="pct-detractors">–</span> van totaal</small></label>
+      <label for="detractors"><span class="dot detractor"></span>Detractors<span class="range">0–6</span></label>
       <div class="stepper">
         <button type="button" data-target="detractors" data-step="-1" aria-label="Detractor eraf">−</button>
         <input id="detractors" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
@@ -385,7 +384,7 @@ details p { margin: 8px 0 0; }
   <details>
     <summary>Hoe wordt dit berekend?</summary>
     <p>NPS = % promoters min % detractors. Passives tellen mee in het totaal, maar niet in de score.</p>
-    <p>De ambitie is een NPS van 80. Met minimaal 85% promoters, maximaal 11% passives en maximaal 4% detractors kom je altijd op 80 of hoger. Het percentage onder elk aantal is groen als het binnen die norm valt en rood als het erbuiten valt.</p>
+    <p>De ambitie is een NPS van 80. Met minimaal 85% promoters, maximaal 11% passives en maximaal 4% detractors kom je altijd op 80 of hoger. Het percentage in het overzicht is groen als het binnen die norm valt en rood als het erbuiten valt.</p>
     <p>Bij "nog nodig" gaan we ervan uit dat al je volgende responses promoters zijn. Komt er een passive of detractor tussen, dan heb je er meer nodig.</p>
     <p>Je invoer blijft op dit apparaat bewaard, ook als je de pagina sluit.</p>
   </details>
@@ -411,11 +410,6 @@ details p { margin: 8px 0 0; }
     resultMain: document.getElementById('result-main'),
     resultText: document.getElementById('result-text'),
     reset: document.getElementById('reset'),
-    pct: {
-      promoters: document.getElementById('pct-promoters'),
-      passives: document.getElementById('pct-passives'),
-      detractors: document.getElementById('pct-detractors'),
-    },
   };
 
   function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
@@ -437,15 +431,14 @@ details p { margin: 8px 0 0; }
   }
 
   function showPct(key, n, N) {
-    [els.pct[key], document.getElementById('leg-' + key)].forEach(function (el) {
-      el.classList.remove('good', 'bad');
-      if (N === 0) { el.textContent = '–'; return; }
-      var pct = 100 * n / N;
-      var norm = NORMS[key];
-      var ok = norm.min !== undefined ? pct >= norm.min : pct <= norm.max;
-      el.textContent = fmtPct(pct);
-      el.classList.add(ok ? 'good' : 'bad');
-    });
+    var el = document.getElementById('leg-' + key);
+    el.classList.remove('good', 'bad');
+    if (N === 0) { el.textContent = '–'; return; }
+    var pct = 100 * n / N;
+    var norm = NORMS[key];
+    var ok = norm.min !== undefined ? pct >= norm.min : pct <= norm.max;
+    el.textContent = fmtPct(pct);
+    el.classList.add(ok ? 'good' : 'bad');
   }
 
   // Ringdiagram: segmenten achter elkaar op één cirkel, met een klein gaatje ertussen
