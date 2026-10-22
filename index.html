@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NPS Doelberekenaar</title>
-<meta name="description" content="Bereken live hoeveel promoters je nog nodig hebt om je NPS-doel te halen.">
+<meta name="description" content="Bereken hoeveel promoters je nog nodig hebt om je NPS-doel te halen.">
 <meta name="theme-color" content="#2C72FF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -38,258 +38,213 @@
 }
 
 :root {
-  --odido-blue:   #2C72FF;
-  --odido-blue-deep: #1B53D6;
-  --odido-blue-soft: #E3ECFF;
-  --odido-teal:   #2F9A92;
-  --odido-teal-deep: #1F7A73;
-  --odido-teal-soft: #E0F0EE;
-  --odido-amber:  #FFAC24;
-  --odido-amber-soft: #FFF1D6;
-  --odido-coral:  #FF808C;
-  --odido-coral-soft: #FFE6E8;
+  --blue:       #2C72FF;
+  --blue-deep:  #1B53D6;
+  --blue-soft:  #E3ECFF;
+  --green:      #1F7A73;
+  --green-dot:  #2F9A92;
+  --amber-dot:  #FFAC24;
+  --red:        #D93345;
+  --red-dot:    #FF808C;
 
   --ink-900: #14141A;
   --ink-700: #3A3A45;
   --ink-500: #6A6A77;
   --ink-400: #9A9AA6;
-  --ink-200: #E5E5EC;
-  --ink-100: #F2F2F6;
-  --ink-050: #F8F8FB;
+  --line:    #E5E5EC;
+  --bg:      #F4F4F7;
   --white:   #FFFFFF;
-  --slate:   #44546A;
-  --error:   #FF4D5E;
-
-  --text-body:  var(--ink-700);
-  --text-muted: var(--ink-500);
-  --border-subtle: var(--ink-200);
 
   --font-headline: "Otypical Headline", "Hanken Grotesk", system-ui, sans-serif;
   --font-text:     "Otypical Text", "Hanken Grotesk", system-ui, sans-serif;
-
-  --radius-sm:   8px;
-  --radius-md:   14px;
-  --radius-lg:   22px;
-  --radius-pill: 999px;
-
-  --shadow-md: 0 4px 16px rgba(20, 20, 26, 0.08);
-
-  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --dur-fast: 120ms;
-  --dur-base: 200ms;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html, body { margin: 0; padding: 0; background: var(--ink-050); }
+html, body { margin: 0; padding: 0; background: var(--bg); }
 
 body {
   font-family: var(--font-text);
-  color: var(--text-body);
+  color: var(--ink-700);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: max(48px, env(safe-area-inset-top) + 24px) max(20px, env(safe-area-inset-right) + 20px)
-           max(72px, env(safe-area-inset-bottom) + 40px) max(20px, env(safe-area-inset-left) + 20px);
+  padding: max(28px, env(safe-area-inset-top) + 16px) max(16px, env(safe-area-inset-right) + 16px)
+           max(40px, env(safe-area-inset-bottom) + 24px) max(16px, env(safe-area-inset-left) + 16px);
 }
 
-a { color: var(--odido-blue); }
-a:hover { color: var(--odido-blue-deep); }
+.wrap { max-width: 520px; margin: 0 auto; }
 
-.wrap { max-width: 600px; margin: 0 auto; }
-
-header { margin-bottom: 28px; }
-
-.eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--odido-blue);
-  font-weight: 700;
-  margin: 0 0 12px;
-}
-
-h1 {
-  font-family: var(--font-headline);
-  font-size: 40px;
-  line-height: 1.06;
-  letter-spacing: -0.02em;
-  font-weight: 800;
-  color: var(--ink-900);
-  margin: 0 0 12px;
-}
-
-.sub {
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--text-muted);
-  margin: 0;
-  max-width: 46ch;
-}
-
-.card {
-  background: var(--white);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  padding: 24px;
-  margin-bottom: 16px;
-}
-
-.card-title {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  font-weight: 700;
-  margin: 0 0 16px;
-}
-
-.input-row {
+header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  border-left: 4px solid transparent;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
-.input-row:last-child { margin-bottom: 0; }
-.input-row.promoter  { background: var(--odido-teal-soft);  border-left-color: var(--odido-teal); }
-.input-row.passive   { background: var(--odido-amber-soft); border-left-color: var(--odido-amber); }
-.input-row.detractor { background: var(--odido-coral-soft); border-left-color: var(--odido-coral); }
 
-.input-row label { font-size: 15px; font-weight: 600; color: var(--ink-900); }
-.input-row .hint { font-weight: 600; font-size: 13px; }
-.input-row.promoter .hint  { color: var(--odido-teal-deep); }
-.input-row.passive .hint   { color: var(--slate); }
-.input-row.detractor .hint { color: var(--error); }
+h1 {
+  font-family: var(--font-headline);
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--ink-900);
+  margin: 0;
+}
 
-.nps-num {
-  width: 88px;
+.link-btn {
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  cursor: pointer;
+}
+.link-btn:hover { color: var(--blue-deep); text-decoration: underline; }
+
+.panel {
   background: var(--white);
-  border: 2px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.panel h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin: 0;
+  padding: 14px 16px 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.row:last-child { border-bottom: 0; }
+
+.row label { font-size: 15px; font-weight: 600; color: var(--ink-900); }
+.row label small { display: block; font-size: 13px; font-weight: 400; color: var(--ink-500); margin-top: 1px; }
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: 1px;
+}
+.dot.promoter  { background: var(--green-dot); }
+.dot.passive   { background: var(--amber-dot); }
+.dot.detractor { background: var(--red-dot); }
+
+.stepper { display: flex; align-items: center; flex-shrink: 0; }
+
+.stepper button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink-700);
+  font: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.stepper button:first-child { border-radius: 8px 0 0 8px; }
+.stepper button:last-child  { border-radius: 0 8px 8px 0; }
+.stepper button:hover  { background: var(--bg); }
+.stepper button:active { background: var(--line); }
+
+.stepper input {
+  width: 64px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: var(--white);
   color: var(--ink-900);
   font-family: var(--font-text);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  text-align: right;
-  padding: 9px 12px;
-  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
-  -webkit-appearance: none;
-  appearance: none;
+  text-align: center;
+  padding: 0 4px;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
-#target-number { width: 76px; background: var(--ink-050); }
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-.nps-num:focus-visible, .nps-range:focus-visible {
-  outline: none;
-  border-color: var(--odido-blue);
-  box-shadow: 0 0 0 4px var(--odido-blue-soft);
-}
-
-.nps-range { flex: 1; height: 6px; accent-color: var(--odido-blue); }
-
-.stat-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-.stat-label {
-  margin: 0 0 6px;
-  font-size: 12px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 600;
-}
-.stat-value {
-  margin: 0;
-  font-family: var(--font-headline);
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  color: var(--ink-400);
-}
-.stat-value.total { font-size: 26px; font-weight: 700; }
-
-.gauge-track {
+.stepper input:focus-visible, .stepper button:focus-visible, .link-btn:focus-visible, input[type=range]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
   position: relative;
-  height: 10px;
-  border-radius: var(--radius-pill);
-  background: var(--ink-100);
-  margin-bottom: 10px;
+  z-index: 1;
 }
-.gauge-fill {
-  position: absolute;
-  top: 0; bottom: 0;
-  border-radius: var(--radius-pill);
-  left: 50%;
-  width: 0%;
-  background: var(--odido-teal);
-  transition: left var(--dur-base) var(--ease-out), width var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
-}
-.gauge-marker {
-  position: absolute;
-  top: 50%;
-  width: 2px;
-  height: 22px;
-  transform: translate(-50%, -50%);
-  transition: left var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
-}
-.gauge-marker::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: -6px;
-  transform: translateX(-50%);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid currentColor;
-}
-.gauge-marker.current { background: var(--ink-700); color: var(--ink-700); left: 50%; opacity: 0; }
-.gauge-marker.target { background: var(--odido-blue); color: var(--odido-blue); left: 75%; }
 
-.gauge-scale {
+.summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #FAFAFC;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 12px 12px;
+  font-size: 14px;
+  color: var(--ink-500);
+}
+.summary strong { color: var(--ink-900); font-size: 15px; }
+.summary .pos { color: var(--green); }
+.summary .neg { color: var(--red); }
+
+.target-slider { padding: 4px 16px 16px; }
+input[type=range] { width: 100%; margin: 0; accent-color: var(--blue); }
+.slider-scale {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  font-weight: 600;
   color: var(--ink-400);
+  margin-top: 2px;
 }
 
-.target-row { display: flex; align-items: center; gap: 16px; }
-
-.result-card {
-  border-width: 2px;
-  border-color: var(--border-subtle);
-  transition: border-color var(--dur-base) var(--ease-out);
+.result {
+  padding: 18px 16px;
+  border-left: 0;
+  background: var(--white);
 }
-.result-card.achieved  { border-color: var(--odido-teal); }
-.result-card.impossible { border-color: var(--odido-coral); }
+.result.ok      { background: #EEF7F6; border-color: #CBE5E2; }
+.result.blocked { background: #FDF0F1; border-color: #F5CDD2; }
 
-.result-headline { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
-.result-number {
+.result-main {
   font-family: var(--font-headline);
-  font-size: 52px;
+  font-size: 22px;
+  line-height: 1.3;
   font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--odido-blue);
+  color: var(--ink-900);
+  margin: 0 0 6px;
 }
-.result-card.achieved .result-number { color: var(--odido-teal-deep); }
-.result-card.impossible .result-number { color: var(--error); }
+.result-main .num { color: var(--blue); }
+.result.ok .result-main .num      { color: var(--green); }
+.result.blocked .result-main .num { color: var(--red); }
 
-.result-number-label { font-size: 14px; color: var(--text-muted); max-width: 18ch; line-height: 1.3; }
+.result p { margin: 0; font-size: 15px; line-height: 1.5; }
+.result p + p { margin-top: 6px; }
 
-.result-text { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-body); }
-.result-detail { margin: 12px 0 0; font-size: 13px; color: var(--odido-blue-deep); font-weight: 600; letter-spacing: -0.01em; }
-
-footer {
-  text-align: center;
-  color: var(--ink-400);
-  font-size: 12px;
-  margin-top: 24px;
-  line-height: 1.5;
+details {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-500);
 }
+details summary { cursor: pointer; color: var(--ink-700); font-weight: 600; }
+details p { margin: 8px 0 0; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
@@ -300,72 +255,75 @@ footer {
 <div class="wrap">
 
   <header>
-    <p class="eyebrow">NPS · Telesales</p>
-    <h1>NPS Doelberekenaar</h1>
-    <p class="sub">Vul je ontvangen responses in en zie live hoeveel promoters je nog nodig hebt om je NPS-doel te halen.</p>
+    <h1>NPS-doel berekenen</h1>
+    <button class="link-btn" id="reset" type="button">Leegmaken</button>
   </header>
 
-  <section class="card">
-    <h2 class="card-title">Ontvangen responses</h2>
-    <div class="input-row promoter">
-      <label for="promoters">Promoters <span class="hint">(+100)</span></label>
-      <input class="nps-num" id="promoters" type="number" min="0" step="1" inputmode="numeric" placeholder="0" value="">
-    </div>
-    <div class="input-row passive">
-      <label for="passives">Passives <span class="hint">(0)</span></label>
-      <input class="nps-num" id="passives" type="number" min="0" step="1" inputmode="numeric" placeholder="0" value="">
-    </div>
-    <div class="input-row detractor">
-      <label for="detractors">Detractors <span class="hint">(-100)</span></label>
-      <input class="nps-num" id="detractors" type="number" min="0" step="1" inputmode="numeric" placeholder="0" value="">
-    </div>
-  </section>
-
-  <section class="card">
-    <div class="stat-row">
-      <div>
-        <p class="stat-label">Huidige NPS</p>
-        <p class="stat-value" id="current-nps">–</p>
-      </div>
-      <div style="text-align:right;">
-        <p class="stat-label">Totaal responses</p>
-        <p class="stat-value total" id="total-count">0</p>
+  <section class="panel">
+    <h2>Jouw responses tot nu toe</h2>
+    <div class="row">
+      <label for="promoters"><span class="dot promoter"></span>Promoters<small>score 9 of 10</small></label>
+      <div class="stepper">
+        <button type="button" data-target="promoters" data-step="-1" aria-label="Promoter eraf">−</button>
+        <input id="promoters" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
+        <button type="button" data-target="promoters" data-step="1" aria-label="Promoter erbij">+</button>
       </div>
     </div>
-    <div class="gauge-track">
-      <div class="gauge-fill" id="gauge-fill"></div>
-      <div class="gauge-marker current" id="marker-current"></div>
-      <div class="gauge-marker target" id="marker-target"></div>
+    <div class="row">
+      <label for="passives"><span class="dot passive"></span>Passives<small>score 7 of 8</small></label>
+      <div class="stepper">
+        <button type="button" data-target="passives" data-step="-1" aria-label="Passive eraf">−</button>
+        <input id="passives" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
+        <button type="button" data-target="passives" data-step="1" aria-label="Passive erbij">+</button>
+      </div>
     </div>
-    <div class="gauge-scale"><span>-100</span><span>0</span><span>+100</span></div>
+    <div class="row">
+      <label for="detractors"><span class="dot detractor"></span>Detractors<small>score 0 t/m 6</small></label>
+      <div class="stepper">
+        <button type="button" data-target="detractors" data-step="-1" aria-label="Detractor eraf">−</button>
+        <input id="detractors" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
+        <button type="button" data-target="detractors" data-step="1" aria-label="Detractor erbij">+</button>
+      </div>
+    </div>
+    <div class="summary">
+      <span>Totaal <strong id="total-count">0</strong></span>
+      <span>Huidige NPS <strong id="current-nps">–</strong></span>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="card-title">Gewenste NPS score</h2>
-    <div class="target-row">
-      <input class="nps-range" id="target-slider" type="range" min="-100" max="100" step="1" value="50">
-      <input class="nps-num" id="target-number" type="number" min="-100" max="100" step="1" value="50">
+  <section class="panel">
+    <div class="row" style="border-bottom:0;">
+      <label for="target-number">Je doel</label>
+      <div class="stepper">
+        <button type="button" data-target="target-number" data-step="-1" aria-label="Doel lager">−</button>
+        <input id="target-number" type="number" min="-100" max="100" step="1" inputmode="numeric" value="50">
+        <button type="button" data-target="target-number" data-step="1" aria-label="Doel hoger">+</button>
+      </div>
+    </div>
+    <div class="target-slider">
+      <input id="target-slider" type="range" min="-100" max="100" step="1" value="50" aria-label="Doel">
+      <div class="slider-scale"><span>-100</span><span>0</span><span>+100</span></div>
     </div>
   </section>
 
-  <section class="card result-card" id="result-card">
-    <h2 class="card-title">Resultaat</h2>
-    <div class="result-headline">
-      <span class="result-number" id="result-number">–</span>
-      <span class="result-number-label" id="result-label">extra promoters nodig</span>
-    </div>
-    <p class="result-text" id="result-text">Voer eerst je ontvangen responses in.</p>
-    <p class="result-detail" id="result-detail"></p>
+  <section class="panel result" id="result" aria-live="polite">
+    <p class="result-main" id="result-main">Vul je responses in</p>
+    <p id="result-text">Je ziet hier meteen hoeveel promoters je nog nodig hebt.</p>
   </section>
 
-  <footer>
-    De berekening gaat ervan uit dat alle nieuwe responses promoters zijn — er komen geen extra passives of detractors bij.
-  </footer>
+  <details>
+    <summary>Hoe wordt dit berekend?</summary>
+    <p>NPS = % promoters min % detractors. Passives tellen mee in het totaal, maar niet in de score.</p>
+    <p>Bij "nog nodig" gaan we ervan uit dat al je volgende responses promoters zijn. Komt er een passive of detractor tussen, dan heb je er meer nodig.</p>
+    <p>Je invoer blijft op dit apparaat bewaard, ook als je de pagina sluit.</p>
+  </details>
 
 </div>
 
 <script>
 (function () {
+  var STORE_KEY = 'nps-doel-v1';
+
   var els = {
     promoters: document.getElementById('promoters'),
     passives: document.getElementById('passives'),
@@ -374,14 +332,10 @@ footer {
     targetNumber: document.getElementById('target-number'),
     currentNps: document.getElementById('current-nps'),
     totalCount: document.getElementById('total-count'),
-    gaugeFill: document.getElementById('gauge-fill'),
-    markerCurrent: document.getElementById('marker-current'),
-    markerTarget: document.getElementById('marker-target'),
-    resultCard: document.getElementById('result-card'),
-    resultNumber: document.getElementById('result-number'),
-    resultLabel: document.getElementById('result-label'),
+    result: document.getElementById('result'),
+    resultMain: document.getElementById('result-main'),
     resultText: document.getElementById('result-text'),
-    resultDetail: document.getElementById('result-detail'),
+    reset: document.getElementById('reset'),
   };
 
   function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
@@ -397,22 +351,48 @@ footer {
     return sign + nl(rounded, decimals);
   }
 
-  function scoreToPercent(score) {
-    return ((clamp(score, -100, 100) + 100) / 200) * 100;
-  }
+  function plural(n, one, many) { return nl(n, 0) + ' ' + (n === 1 ? one : many); }
 
   function count(str) {
     var v = parseInt(str, 10);
     return Number.isFinite(v) && v > 0 ? v : 0;
   }
 
-  function syncTarget(source) {
-    var val = source === 'slider' ? parseInt(els.targetSlider.value, 10) : parseInt(els.targetNumber.value, 10);
-    if (!Number.isFinite(val)) val = 0;
+  function readTarget() {
+    var v = parseInt(els.targetNumber.value, 10);
+    return Number.isFinite(v) ? clamp(v, -100, 100) : 0;
+  }
+
+  function setTarget(val) {
     val = clamp(val, -100, 100);
     els.targetSlider.value = val;
     els.targetNumber.value = val;
-    return val;
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        p: els.promoters.value, pa: els.passives.value, d: els.detractors.value, t: readTarget(),
+      }));
+    } catch (e) {}
+  }
+
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+      if (!s) return;
+      els.promoters.value = s.p || '';
+      els.passives.value = s.pa || '';
+      els.detractors.value = s.d || '';
+      if (Number.isFinite(s.t)) setTarget(s.t);
+    } catch (e) {}
+  }
+
+  function show(state, main, text) {
+    els.result.classList.remove('ok', 'blocked');
+    if (state) els.result.classList.add(state);
+    els.resultMain.innerHTML = main;
+    els.resultText.textContent = text;
   }
 
   function calculate() {
@@ -421,85 +401,85 @@ footer {
     var d = count(els.detractors.value);
     var N = p + pa + d;
     var S = 100 * p - 100 * d;
-    var currentNps = N > 0 ? S / N : null;
-    var target = syncTarget('already-synced');
+    var t = readTarget();
 
-    els.totalCount.textContent = N;
-
-    if (currentNps === null) {
+    els.totalCount.textContent = nl(N, 0);
+    els.currentNps.classList.remove('pos', 'neg');
+    if (N === 0) {
       els.currentNps.textContent = '–';
-      els.currentNps.style.color = 'var(--ink-400)';
     } else {
-      els.currentNps.textContent = fmtScore(currentNps);
-      els.currentNps.style.color = currentNps > 0 ? 'var(--odido-teal-deep)' : currentNps < 0 ? 'var(--error)' : 'var(--ink-700)';
+      els.currentNps.textContent = fmtScore(S / N);
+      if (S > 0) els.currentNps.classList.add('pos');
+      if (S < 0) els.currentNps.classList.add('neg');
     }
 
-    var curForGauge = currentNps === null ? 0 : currentNps;
-    var curPct = scoreToPercent(curForGauge);
-    els.markerCurrent.style.left = curPct + '%';
-    els.markerCurrent.style.opacity = currentNps === null ? '0' : '0.55';
-    els.markerTarget.style.left = scoreToPercent(target) + '%';
-
-    if (currentNps !== null) {
-      if (curForGauge >= 0) {
-        els.gaugeFill.style.left = '50%';
-        els.gaugeFill.style.width = (curPct - 50) + '%';
-        els.gaugeFill.style.background = 'var(--odido-teal)';
-      } else {
-        els.gaugeFill.style.left = curPct + '%';
-        els.gaugeFill.style.width = (50 - curPct) + '%';
-        els.gaugeFill.style.background = 'var(--odido-coral)';
-      }
-    } else {
-      els.gaugeFill.style.width = '0%';
-    }
-
-    els.resultCard.classList.remove('achieved', 'impossible');
+    save();
 
     if (N === 0) {
-      els.resultNumber.style.color = '';
-      els.resultNumber.textContent = '–';
-      els.resultLabel.textContent = 'extra promoters nodig';
-      els.resultText.textContent = 'Voer eerst je ontvangen responses in.';
-      els.resultDetail.textContent = '';
+      show('', 'Vul je responses in', 'Je ziet hier meteen hoeveel promoters je nog nodig hebt.');
       return;
     }
 
-    if (target <= currentNps) {
-      els.resultCard.classList.add('achieved');
-      els.resultNumber.textContent = '0';
-      els.resultLabel.textContent = 'extra promoters nodig';
-      els.resultText.textContent = 'Doel al behaald — je huidige NPS van ' + fmtScore(currentNps) + ' is gelijk aan of hoger dan je doel van ' + fmtScore(target) + '.';
-      els.resultDetail.textContent = '';
+    // Doel gehaald: S/N >= t, met hele getallen vergeleken
+    if (S >= t * N) {
+      if (t === -100) {
+        show('ok', 'Doel gehaald', 'Lager dan -100 kan de NPS niet worden.');
+        return;
+      }
+      // Hoeveel detractors erbij voordat je onder het doel zakt: (S - 100k) / (N + k) >= t
+      var buffer = Math.floor((S - t * N) / (100 + t));
+      show('ok', 'Doel gehaald',
+        buffer === 0
+          ? 'Je zit precies op de grens. Eén detractor erbij en je zakt onder ' + fmtScore(t) + '.'
+          : 'Je kunt nog ' + plural(buffer, 'detractor', 'detractors') + ' hebben en zit dan nog steeds op of boven ' + fmtScore(t) + '.');
       return;
     }
 
-    if (target === 100) {
-      els.resultCard.classList.add('impossible');
-      els.resultNumber.textContent = '∞';
-      els.resultLabel.textContent = 'niet haalbaar';
-      els.resultText.textContent = 'Een NPS van +100 kun je met deze ' + N + ' response' + (N === 1 ? '' : 's') + ' niet meer bereiken, omdat er al minstens één passive of detractor tussen zit. Hoe veel promoters je ook toevoegt, je nadert de +100 alleen — je haalt hem nooit precies.';
-      els.resultDetail.textContent = '';
+    if (t === 100) {
+      show('blocked', 'Niet meer haalbaar',
+        'Voor +100 moeten alle responses promoters zijn. Je hebt al een passive of detractor, dus +100 lukt in deze periode niet meer.');
       return;
     }
 
-    var x = Math.ceil((target * N - S) / (100 - target));
+    var x = Math.ceil((t * N - S) / (100 - t));
     var newN = N + x;
-    var newS = S + 100 * x;
-    var newNps = newS / newN;
-
-    els.resultNumber.textContent = nl(x, 0);
-    els.resultLabel.textContent = 'extra promoters nodig';
-    els.resultText.textContent = 'Je hebt nog ' + x + ' extra promoter' + (x === 1 ? '' : 's') + ' nodig om een NPS van ' + fmtScore(target) + ' te halen.';
-    els.resultDetail.textContent = '→ ' + newN + ' responses totaal · nieuwe NPS ' + fmtScore(newNps);
+    show('', 'Nog <span class="num">' + nl(x, 0) + '</span> ' + (x === 1 ? 'promoter' : 'promoters') + ' nodig',
+      'Dan kom je op ' + fmtScore((S + 100 * x) / newN) + ' bij ' + nl(newN, 0) + ' responses in totaal.');
   }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.stepper button'), function (btn) {
+    btn.addEventListener('click', function () {
+      var input = document.getElementById(btn.dataset.target);
+      var step = parseInt(btn.dataset.step, 10);
+      if (input === els.targetNumber) {
+        setTarget(readTarget() + step);
+      } else {
+        input.value = Math.max(0, count(input.value) + step) || '';
+      }
+      calculate();
+    });
+  });
 
   [els.promoters, els.passives, els.detractors].forEach(function (el) {
     el.addEventListener('input', calculate);
   });
-  els.targetSlider.addEventListener('input', function () { syncTarget('slider'); calculate(); });
-  els.targetNumber.addEventListener('input', function () { syncTarget('number'); calculate(); });
+  els.targetSlider.addEventListener('input', function () { setTarget(parseInt(els.targetSlider.value, 10)); calculate(); });
+  els.targetNumber.addEventListener('input', function () {
+    var v = parseInt(els.targetNumber.value, 10);
+    if (Number.isFinite(v)) els.targetSlider.value = clamp(v, -100, 100);
+    calculate();
+  });
+  els.targetNumber.addEventListener('change', function () { setTarget(readTarget()); calculate(); });
 
+  els.reset.addEventListener('click', function () {
+    els.promoters.value = '';
+    els.passives.value = '';
+    els.detractors.value = '';
+    calculate();
+    els.promoters.focus();
+  });
+
+  load();
   calculate();
 })();
 </script>
